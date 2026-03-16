@@ -80,7 +80,7 @@ class Stats(commands.Cog):
 
         # Check png availability via a quick HEAD (async)
         try:
-            session = await self.fetcher._get_session()
+            session = await self.fetcher.get_session()
             async with session.head(clan_image_url) as resp:
                 if resp.status != 200:
                     clan_image_url = f"{BASE_URL}/logos/Logo_{clan}.gif"

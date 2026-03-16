@@ -56,6 +56,7 @@ CLAN_EMOJIS = {
     "RIM:LA": "<:Logo_RIM_LA:1330790529214185472>",
     "ADG": "<a:Logo_ADG:1331778693949034516>",
     "FASO": "<:Logo_FASO:1344203061907689482>",
+    "PORN": "",
 }
 
 # ── Flag emojis for timezone selection ────────────────────────────────────────

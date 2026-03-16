@@ -336,10 +336,6 @@ document.addEventListener('DOMContentLoaded', function() {
                         hoverBorderColor: 'rgba(0, 255, 255, 1)',
                         borderRadius: 5,
                         barThickness: 30,
-                        shadowOffsetX: 3,
-                        shadowOffsetY: 3,
-                        shadowBlur: 10,
-                        shadowColor: 'rgba(0, 255, 255, 0.5)',
                     }]
                 },
                 options: {
@@ -387,6 +383,118 @@ document.addEventListener('DOMContentLoaded', function() {
             console.error('Error al cargar el archivo JSON de promedios:', error);
             showError('Error al cargar promedios de clanes.', document.getElementById('clan-averages-results'));
         });
+
+    // ============================================
+    // Top Players form handler
+    // ============================================
+    const topPlayersForm = document.getElementById('top-players-form');
+    if (topPlayersForm) {
+        topPlayersForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            const ensureData = playersDataLoaded ? Promise.resolve() : loadPlayersData();
+            ensureData.then(function() {
+                const category = document.getElementById('category').value;
+                const metric = document.getElementById('metric').value;
+                const topNumber = parseInt(document.getElementById('top-number').value) || 10;
+                const resultsContainer = document.getElementById('top-players-results');
+
+                const metricMap = {
+                    'performance': 'Performance Score',
+                    'kd': 'K/D Ratio',
+                    'kills': 'Total Kills',
+                    'deaths': 'Total Deaths',
+                    'rounds': 'Rounds'
+                };
+                const metricKey = metricMap[metric] || 'Performance Score';
+
+                let filtered = playersData;
+                if (category !== 'general') {
+                    filtered = playersData.filter(p => p.Clan.toLowerCase() === category.toLowerCase());
+                }
+
+                const sorted = [...filtered].sort((a, b) => (b[metricKey] || 0) - (a[metricKey] || 0));
+                const top = sorted.slice(0, topNumber);
+
+                if (top.length === 0) {
+                    resultsContainer.innerHTML = '<p class="error">No se encontraron jugadores para esta categoría.</p>';
+                    return;
+                }
+
+                let html = `<div class="stats-box"><h3>Top ${top.length} - ${category.toUpperCase()} (${metric})</h3>`;
+                top.forEach((p, i) => {
+                    html += `<p><strong>#${i + 1}</strong> ${p.Player} (${p.Clan}) — <strong>${(p[metricKey] || 0).toFixed(2)}</strong></p>`;
+                });
+                html += '</div>';
+                resultsContainer.innerHTML = html;
+            });
+        });
+    }
+
+    // ============================================
+    // Compare form handler
+    // ============================================
+    const compareForm = document.getElementById('compare-form');
+    if (compareForm) {
+        compareForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            const ensureData = playersDataLoaded ? Promise.resolve() : loadPlayersData();
+            ensureData.then(function() {
+                const entity1 = document.getElementById('entity1').value.trim();
+                const entity2 = document.getElementById('entity2').value.trim();
+                const resultsContainer = document.getElementById('compare-results');
+
+                const p1 = playersData.find(p => p.Player.toLowerCase() === entity1.toLowerCase());
+                const p2 = playersData.find(p => p.Player.toLowerCase() === entity2.toLowerCase());
+
+                if (p1 && p2) {
+                    let html = '<div class="stats-box">';
+                    html += `<h3>Comparación: ${p1.Player} vs ${p2.Player}</h3>`;
+                    const metrics = [
+                        ['K/D Ratio', 'K/D Ratio'],
+                        ['Kills per Round', 'Kills per Round'],
+                        ['Score per Round', 'Score per Round'],
+                        ['Performance Score', 'Performance Score'],
+                        ['Rounds', 'Rounds'],
+                        ['Total Kills', 'Total Kills'],
+                        ['Total Score', 'Total Score']
+                    ];
+                    metrics.forEach(([label, key]) => {
+                        const v1 = (p1[key] || 0);
+                        const v2 = (p2[key] || 0);
+                        const fmt = typeof v1 === 'number' && v1 % 1 !== 0 ? 2 : 0;
+                        const w1 = v1 > v2 ? 'color:#00FFFF;font-weight:bold' : '';
+                        const w2 = v2 > v1 ? 'color:#00FFFF;font-weight:bold' : '';
+                        html += `<p><strong>${label}:</strong> <span style="${w1}">${v1.toFixed(fmt)}</span> vs <span style="${w2}">${v2.toFixed(fmt)}</span></p>`;
+                    });
+                    const winner = p1['Performance Score'] > p2['Performance Score'] ? p1.Player :
+                                   p2['Performance Score'] > p1['Performance Score'] ? p2.Player : null;
+                    html += winner ? `<p><strong>Mejor:</strong> ${winner}</p>` : '<p><strong>Empate</strong></p>';
+                    html += '</div>';
+                    resultsContainer.innerHTML = html;
+                } else {
+                    // Try clan comparison
+                    const clans1 = playersData.filter(p => p.Clan === entity1);
+                    const clans2 = playersData.filter(p => p.Clan === entity2);
+                    if (clans1.length > 0 && clans2.length > 0) {
+                        const sum = (arr, key) => arr.reduce((a, p) => a + (p[key] || 0), 0);
+                        let html = '<div class="stats-box">';
+                        html += `<h3>Comparación: ${entity1} vs ${entity2}</h3>`;
+                        ['Total Kills', 'Total Deaths', 'Total Score', 'Rounds'].forEach(key => {
+                            const v1 = sum(clans1, key);
+                            const v2 = sum(clans2, key);
+                            const w1 = v1 > v2 ? 'color:#00FFFF;font-weight:bold' : '';
+                            const w2 = v2 > v1 ? 'color:#00FFFF;font-weight:bold' : '';
+                            html += `<p><strong>${key}:</strong> <span style="${w1}">${v1}</span> vs <span style="${w2}">${v2}</span></p>`;
+                        });
+                        html += '</div>';
+                        resultsContainer.innerHTML = html;
+                    } else {
+                        resultsContainer.innerHTML = '<p class="error">No se encontraron jugadores o clanes con esos nombres.</p>';
+                    }
+                }
+            });
+        });
+    }
 
     // ============================================
     // Team analysis - suggestions for player inputs

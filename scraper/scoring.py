@@ -50,6 +50,9 @@ def calculate_scores(df: pd.DataFrame) -> pd.DataFrame:
         + w["rounds"] * df["Normalized_Rounds"]
     )
 
+    # Calculate Deaths per Round (needed by bot's sugerir_equipo command)
+    df["Deaths per Round"] = df["Total Deaths"] / df["Rounds"]
+
     # Apply smooth sigmoid penalty for low round counts
     df["Performance Score"] *= df["Rounds"].apply(_sigmoid_penalty)
 

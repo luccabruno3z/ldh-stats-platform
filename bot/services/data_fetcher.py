@@ -27,6 +27,10 @@ class DataFetcher:
             self._session = aiohttp.ClientSession(timeout=self.timeout)
         return self._session
 
+    async def get_session(self) -> aiohttp.ClientSession:
+        """Public access to the underlying aiohttp session."""
+        return await self._get_session()
+
     async def close(self) -> None:
         """Close the underlying aiohttp session."""
         if self._session and not self._session.closed:
