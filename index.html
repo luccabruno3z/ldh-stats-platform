@@ -4,431 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Legión de Hierro - Estadísticas</title>
+    <meta name="description" content="Estadísticas y análisis de rendimiento para clanes de Project Reality - Legión de Hierro">
+    <meta name="theme-color" content="#00FFFF">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Legión de Hierro - Estadísticas de Project Reality">
+    <meta property="og:description" content="Estadísticas y análisis de rendimiento para clanes de Project Reality - Legión de Hierro">
+    <meta property="og:image" content="https://luccabruno3z.github.io/logos/Logo_LDH.png">
+    <meta property="og:url" content="https://luccabruno3z.github.io/">
+    <meta property="og:type" content="website">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link rel="icon" href="logos/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="web/css/styles.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <style>
-        /* Estilo general con tema militar oscuro */
-        body {
-            font-family: 'Roboto', sans-serif;
-            margin: 0;
-            padding: 0;
-            color: #fff;
-            background: #121212;
-            line-height: 1.6;
-        }
-
-        /* Estilo de los títulos con una fuente militar y elegante */
-        h1, h2, h3 {
-            font-family: 'Bebas Neue', sans-serif;
-            letter-spacing: 1px;
-            color: #00FFFF;
-            text-align: center;
-            text-shadow: 0 0 10px #00FFFF;
-        }
-
-        /* Encabezado con tema oscuro y detalles militares */
-        header {
-            background: #000;
-            padding: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 3px solid #00FFFF;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-        }
-
-        header .logo {
-            display: flex;
-            align-items: center;
-        }
-
-        header .logo img {
-            max-height: 60px;
-            margin-right: 15px;
-        }
-
-        header .logo span {
-            font-size: 2rem;
-            font-weight: bold;
-            color: #00FFFF;
-            text-shadow: 0 0 10px #00FFFF;
-        }
-
-        nav {
-            display: flex;
-            gap: 20px;
-        }
-
-        nav a {
-            text-decoration: none;
-            color: #00FFFF;
-            font-weight: bold;
-            padding: 10px 20px;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-            border: 1px solid #00FFFF;
-            text-shadow: 0 0 10px #00FFFF;
-        }
-
-        nav a:hover, nav a:focus {
-            background: #00FFFF;
-            color: #000;
-            outline: none;
-        }
-
-        /* Sección principal ajustada para el encabezado fijo */
-        main {
-            padding-top: 120px;
-        }
-
-        /* Hero Section */
-        .hero {
-            background: url('https://www.toptal.com/designers/subtlepatterns/uploads/dark_mosaic.png') center/cover no-repeat;
-            padding: 100px 20px;
-            text-align: center;
-            border-bottom: 3px solid #00FFFF;
-        }
-
-        .hero h1 {
-            font-size: 4rem;
-            color: #00FFFF;
-            text-shadow: 0 0 10px #00FFFF;
-        }
-
-        .hero p {
-            font-size: 1.2rem;
-            color: #ddd;
-        }
-
-        /* Sección de Actualizaciones y Guías */
-        .updates, .resources, .guides, .clan-averages, .top-players, .compare-section, .team-analysis {
-            padding: 60px 20px;
-            text-align: center;
-            background: #1a1a1a;
-        }
-
-        .updates h2, .resources h2, .guides h2, .clan-averages h2, .top-players h2, .compare-section h2, .team-analysis h2 {
-            font-size: 2.5rem;
-            margin-bottom: 20px;
-            color: #00FFFF;
-            text-transform: uppercase;
-            text-shadow: 0 0 10px #00FFFF;
-        }
-
-        .updates ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        .updates li {
-            background: #333;
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 10px;
-            border-left: 5px solid #00FFFF;
-        }
-
-        /* Gráficos Interactivos y Guías */
-        .resource-grid, .guide-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            padding-top: 20px;
-        }
-
-        .resource-item, .guide-item {
-            background: #333;
-            padding: 20px;
-            border-radius: 10px;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            border: 1px solid #666;
-        }
-
-        .resource-item:hover, .guide-item:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 15px rgba(0, 255, 255, 0.8);
-        }
-
-        .resource-item a, .guide-item a {
-            color: #00FFFF;
-            font-size: 1.2rem;
-            text-decoration: none;
-            font-weight: bold;
-            text-shadow: 0 0 10px #00FFFF;
-        }
-
-        /* Estilos para los botones de redes sociales */
-        .social-buttons {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            margin-top: 20px;
-        }
-        .social-button {
-            padding: 10px;
-            background-color: #666;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            transition: background 0.3s;
-        }
-        .social-button img {
-            width: 20px;
-            height: 20px;
-        }
-        .social-button:hover, .social-button:focus {
-            background: #555;
-            outline: none;
-        }
-
-        /* Estilos para el formulario de búsqueda */
-        .search-form, .top-players-form, .compare-form, .team-analysis-form {
-            margin-top: 20px;
-            text-align: center;
-            position: relative;
-        }
-        .search-form input, .top-players-form input, .compare-form input, .top-players-form select, .team-analysis-form input {
-            padding: 10px;
-            border-radius: 5px;
-            border: 1px solid #00FFFF;
-            background: #333;
-            color: #fff;
-            margin: 5px;
-        }
-        .team-analysis-form input {
-            width: 100%;
-            box-sizing: border-box;
-        }
-        .search-form button, .top-players-form button, .compare-form button, .team-analysis-form button {
-            padding: 10px 20px;
-            border-radius: 5px;
-            border: none;
-            background: #00FFFF;
-            color: #000;
-            cursor: pointer;
-            transition: background 0.3s;
-            text-shadow: 0 0 10px #00FFFF;
-        }
-        .search-form button:hover, .search-form button:focus, .top-players-form button:hover, .top-players-form button:focus, .compare-form button:hover, .compare-form button:focus, .team-analysis-form button:hover, .team-analysis-form button:focus {
-            background: #00CED1;
-            outline: none;
-        }
-        .suggestions {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            transform: translateY(5px);
-            background: #333;
-            border: 1px solid #00FFFF;
-            border-radius: 5px;
-            width: 100%;
-            max-height: 200px;
-            overflow-y: auto;
-            z-index: 1000;
-        }
-        .suggestion-item {
-            padding: 10px;
-            cursor: pointer;
-            color: #fff;
-        }
-        .suggestion-item:hover, .suggestion-item:focus {
-            background: #444;
-            outline: none;
-        }
-        .search-results, .clan-averages-results, .top-players-results, .compare-results, .team-analysis-results {
-            margin-top: 20px;
-            text-align: center;
-        }
-        .stats-box {
-            background: #222;
-            border: 1px solid #00FFFF;
-            border-radius: 10px;
-            padding: 20px;
-            margin-top: 20px;
-            text-align: left;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-            box-shadow: 0 0 15px rgba(0, 255, 255, 0.2);
-            position: relative;
-        }
-
-        .stats-box h3 {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 1.8rem;
-            color: #00FFFF;
-            margin-bottom: 10px;
-            text-shadow: 0 0 10px #00FFFF;
-        }
-
-        .stats-box p {
-            font-family: 'Roboto', sans-serif;
-            font-size: 1rem;
-            color: #ddd;
-            margin: 5px 0;
-        }
-
-        .stats-box strong {
-            color: #00FFFF;
-            text-shadow: 0 0 10px #00FFFF;
-        }
-
-        .clan-logo {
-            display: block;
-            margin: 0 auto;
-            max-width: 150px;
-            margin-bottom: 20px;
-        }
-
-        /* Flex container for aligning chart and stats */
-        .clan-averages-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .clan-averages-chart {
-            width: 100%;
-            max-width: 800px;
-            margin-bottom: 20px;
-        }
-
-        .clan-averages-stats {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 20px;
-        }
-
-        .clan-averages-stats .stats-box {
-            width: calc(100% / 3 - 40px);
-        }
-
-        /* Estilo para el formulario de análisis de equipo */
-        .team-analysis-container {
-            display: flex;
-            justify-content: space-around;
-            flex-wrap: wrap;
-            gap: 20px;
-            margin-top: 20px;
-        }
-
-        .team-analysis-box {
-            background: #333;
-            padding: 20px;
-            border-radius: 10px;
-            width: calc(50% - 40px);
-            box-shadow: 0 0 15px rgba(0, 255, 255, 0.2);
-            border: 1px solid #00FFFF;
-            min-width: 300px;
-        }
-
-        .team-analysis-box h3 {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 1.8rem;
-            color: #00FFFF;
-            text-shadow: 0 0 10px #00FFFF;
-            margin-bottom: 10px;
-        }
-
-        .team-analysis-box label, .team-analysis-box input {
-            display: block;
-            width: 100%;
-            margin-bottom: 10px;
-        }
-
-        .team-analysis-box input {
-            padding: 10px;
-            border-radius: 5px;
-            border: 1px solid #00FFFF;
-            background: #444;
-            color: #fff;
-        }
-
-        .team-analysis-box button {
-            padding: 10px 20px;
-            border-radius: 5px;
-            border: none;
-            background: #00FFFF;
-            color: #000;
-            cursor: pointer;
-            transition: background 0.3s;
-            text-shadow: 0 0 10px #00FFFF;
-        }
-
-        .team-analysis-box button:hover, .team-analysis-box button:focus {
-            background: #00CED1;
-            outline: none;
-        }
-
-        /* Pie de página */
-        footer {
-            text-align: center;
-            padding: 20px;
-            background: #000;
-            color: #fff;
-        }
-
-        footer a {
-            color: #00FFFF;
-            text-shadow: 0 0 10px #00FFFF;
-        }
-
-        footer a:hover {
-            text-decoration: underline;
-        }
-
-        /* Media queries para dispositivos móviles */
-        @media (max-width: 768px) {
-            header {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            nav {
-                flex-direction: column;
-                gap: 10px;
-                width: 100%;
-            }
-
-            nav a {
-                width: calc(100% - 40px);
-                text-align: center;
-            }
-
-            .hero h1 {
-                font-size: 2.5rem;
-            }
-
-            .hero p {
-                font-size: 1rem;
-            }
-
-            .updates h2, .resources h2, .guides h2, .clan-averages h2, .top-players h2, .compare-section h2, .team-analysis h2 {
-                font-size: 2rem;
-            }
-
-            .resource-grid, .guide-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .clan-averages-stats .stats-box {
-                width: 100%;
-            }
-
-            .team-analysis-box {
-                width: 100%;
-            }
-        }
-    </style>
 </head>
 <body>
     <!-- Encabezado con logo -->
@@ -437,7 +27,9 @@
             <img src="https://luccabruno3z.github.io/logos/Logo_LDH.png" alt="Logo LDH">
             <span>Legión de Hierro - Portal</span>
         </div>
-        <nav>
+        <input type="checkbox" id="nav-toggle" aria-hidden="true">
+        <label for="nav-toggle" class="hamburger-label" aria-label="Abrir menú de navegación">&#9776;</label>
+        <nav role="navigation" aria-label="Navegación principal">
             <a href="#novedades">Novedades</a>
             <a href="#graficos">Gráficos</a>
             <a href="#guias">Guías</a>
@@ -445,7 +37,7 @@
         </nav>
     </header>
 
-    <main>
+    <main role="main">
         <!-- Hero Section -->
         <section class="hero">
             <h1>Bienvenido a la Legión de Hierro</h1>
@@ -485,7 +77,7 @@
         <section class="clan-averages">
             <h2>Promedios de Clanes</h2>
             <div class="clan-averages-container">
-                <canvas id="clanAveragesChart" class="clan-averages-chart"></canvas>
+                <canvas id="clanAveragesChart" class="clan-averages-chart" aria-label="Gráfico de promedios de clanes"></canvas>
                 <div id="clan-averages-results" class="clan-averages-stats"></div>
             </div>
         </section>
@@ -495,10 +87,10 @@
             <h2>Top Jugadores</h2>
             <form id="top-players-form" class="top-players-form">
                 <label for="category">Categoría:</label>
-                <select id="category" name="category">
+                <select id="category" name="category" aria-label="Seleccionar categoría de clan">
                     <option value="general">General</option>
                     <option value="ldh">LDH</option>
-                        <option value="sae">SAE</option>
+                    <option value="sae">SAE</option>
                     <option value="fi">FI</option>
                     <option value="141">141</option>
                     <option value="fi-r">FI-R</option>
@@ -509,7 +101,7 @@
                     <option value="adg">ADG</option>
                 </select>
                 <label for="metric">Métrica:</label>
-                <select id="metric" name="metric">
+                <select id="metric" name="metric" aria-label="Seleccionar métrica de rendimiento">
                     <option value="performance">Performance Score</option>
                     <option value="kd">K/D Ratio</option>
                     <option value="kills">Total Kills</option>
@@ -517,7 +109,7 @@
                     <option value="rounds">Rounds</option>
                 </select>
                 <label for="top-number">Cantidad:</label>
-                <input type="number" id="top-number" name="top-number" min="1" value="10">
+                <input type="number" id="top-number" name="top-number" min="1" value="10" aria-label="Cantidad de jugadores a mostrar">
                 <button type="submit">Ver Top</button>
             </form>
             <div id="top-players-results" class="top-players-results"></div>
@@ -528,9 +120,9 @@
             <h2>Comparar Jugadores o Clanes</h2>
             <form id="compare-form" class="compare-form">
                 <label for="entity1">Entidad 1:</label>
-                <input type="text" id="entity1" name="entity1" required>
+                <input type="text" id="entity1" name="entity1" required aria-label="Nombre del primer jugador o clan">
                 <label for="entity2">Entidad 2:</label>
-                <input type="text" id="entity2" name="entity2" required>
+                <input type="text" id="entity2" name="entity2" required aria-label="Nombre del segundo jugador o clan">
                 <button type="submit">Comparar</button>
             </form>
             <div id="compare-results" class="compare-results"></div>
@@ -560,12 +152,12 @@
             <h2>Buscar Estadísticas de Jugadores</h2>
             <form class="search-form" id="search-form">
                 <label for="player-name">Nombre del Jugador:</label>
-                <input type="text" id="player-name" name="player-name" required>
-                <div class="suggestions" id="suggestions"></div>
+                <input type="text" id="player-name" name="player-name" required aria-label="Nombre del jugador a buscar" aria-autocomplete="list" aria-controls="suggestions">
+                <div class="suggestions" id="suggestions" role="listbox" aria-label="Sugerencias de jugadores"></div>
                 <button type="submit">Buscar</button>
             </form>
             <div class="search-results" id="search-results"></div>
-            <canvas id="performanceHistoryChart" style="display: none;"></canvas>
+            <canvas id="performanceHistoryChart" style="display: none;" aria-label="Gráfico de historial de rendimiento"></canvas>
         </section>
 
         <!-- Análisis de Equipo -->
@@ -577,29 +169,29 @@
                     <h3>Introduce tu Equipo</h3>
                     <form id="team-analysis-form" class="team-analysis-form">
                         <label for="player1">Jugador 1:</label>
-                        <input type="text" id="player1" name="player1">
-                        <div class="suggestions" id="suggestions1"></div>
+                        <input type="text" id="player1" name="player1" aria-label="Nombre del jugador 1" aria-autocomplete="list" aria-controls="suggestions1">
+                        <div class="suggestions" id="suggestions1" role="listbox" aria-label="Sugerencias para jugador 1"></div>
                         <label for="player2">Jugador 2:</label>
-                        <input type="text" id="player2" name="player2">
-                        <div class="suggestions" id="suggestions2"></div>
+                        <input type="text" id="player2" name="player2" aria-label="Nombre del jugador 2" aria-autocomplete="list" aria-controls="suggestions2">
+                        <div class="suggestions" id="suggestions2" role="listbox" aria-label="Sugerencias para jugador 2"></div>
                         <label for="player3">Jugador 3:</label>
-                        <input type="text" id="player3" name="player3">
-                        <div class="suggestions" id="suggestions3"></div>
+                        <input type="text" id="player3" name="player3" aria-label="Nombre del jugador 3" aria-autocomplete="list" aria-controls="suggestions3">
+                        <div class="suggestions" id="suggestions3" role="listbox" aria-label="Sugerencias para jugador 3"></div>
                         <label for="player4">Jugador 4:</label>
-                        <input type="text" id="player4" name="player4">
-                        <div class="suggestions" id="suggestions4"></div>
+                        <input type="text" id="player4" name="player4" aria-label="Nombre del jugador 4" aria-autocomplete="list" aria-controls="suggestions4">
+                        <div class="suggestions" id="suggestions4" role="listbox" aria-label="Sugerencias para jugador 4"></div>
                         <label for="player5">Jugador 5:</label>
-                        <input type="text" id="player5" name="player5">
-                        <div class="suggestions" id="suggestions5"></div>
+                        <input type="text" id="player5" name="player5" aria-label="Nombre del jugador 5" aria-autocomplete="list" aria-controls="suggestions5">
+                        <div class="suggestions" id="suggestions5" role="listbox" aria-label="Sugerencias para jugador 5"></div>
                         <label for="player6">Jugador 6:</label>
-                        <input type="text" id="player6" name="player6">
-                        <div class="suggestions" id="suggestions6"></div>
+                        <input type="text" id="player6" name="player6" aria-label="Nombre del jugador 6" aria-autocomplete="list" aria-controls="suggestions6">
+                        <div class="suggestions" id="suggestions6" role="listbox" aria-label="Sugerencias para jugador 6"></div>
                         <label for="player7">Jugador 7:</label>
-                        <input type="text" id="player7" name="player7">
-                        <div class="suggestions" id="suggestions7"></div>
+                        <input type="text" id="player7" name="player7" aria-label="Nombre del jugador 7" aria-autocomplete="list" aria-controls="suggestions7">
+                        <div class="suggestions" id="suggestions7" role="listbox" aria-label="Sugerencias para jugador 7"></div>
                         <label for="player8">Jugador 8:</label>
-                        <input type="text" id="player8" name="player8">
-                        <div class="suggestions" id="suggestions8"></div>
+                        <input type="text" id="player8" name="player8" aria-label="Nombre del jugador 8" aria-autocomplete="list" aria-controls="suggestions8">
+                        <div class="suggestions" id="suggestions8" role="listbox" aria-label="Sugerencias para jugador 8"></div>
                         <button type="submit">Analizar Equipo</button>
                     </form>
                 </div>
@@ -626,342 +218,9 @@
     <!-- Pie de Página -->
     <footer>
         <p>Legión de Hierro | <a href="mailto:luccabruno96@gmail.com">Contacto</a></p>
-        <p>© 2025 - Todos los derechos reservados.</p>
+        <p>&copy; 2026 - Todos los derechos reservados.</p>
     </footer>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const playerNameInput = document.getElementById('player-name');
-            const suggestionsContainer = document.getElementById('suggestions');
-            const performanceHistoryChart = document.getElementById('performanceHistoryChart');
-            let playersData = [];
-
-            // Fetch the players data from the JSON file
-            fetch('https://luccabruno3z.github.io/graphs/all_players_clusters.json')
-                .then(response => response.json())
-                .then(data => {
-                    playersData = data;
-
-                    // Ordenar los jugadores por Performance Score
-                    playersData.sort((a, b) => b["Performance Score"] - a["Performance Score"]);
-                })
-                .catch(error => console.error('Error al cargar el archivo JSON:', error));
-
-            // Add event listener for input changes
-            playerNameInput.addEventListener('input', function() {
-                const query = playerNameInput.value.trim().toLowerCase();
-                suggestionsContainer.innerHTML = '';
-
-                if (query.length > 0) {
-                    const filteredPlayers = playersData.filter(player =>
-                        player.Player.toLowerCase().includes(query)
-                    );
-
-                    filteredPlayers.forEach(player => {
-                        const suggestionItem = document.createElement('div');
-                        suggestionItem.classList.add('suggestion-item');
-                        suggestionItem.textContent = player.Player;
-                        suggestionItem.addEventListener('click', function() {
-                            playerNameInput.value = player.Player;
-                            suggestionsContainer.innerHTML = '';
-                        });
-                        suggestionsContainer.appendChild(suggestionItem);
-                    });
-                }
-            });
-
-            // Add event listener for form submission
-            document.getElementById('search-form').addEventListener('submit', function(event) {
-                event.preventDefault();
-                const playerName = playerNameInput.value.trim();
-                const player = playersData.find(p => p.Player.toLowerCase() === playerName.toLowerCase());
-                const resultsContainer = document.getElementById('search-results');
-                resultsContainer.innerHTML = '';
-
-                if (player) {
-                    const ranking = playersData.findIndex(p => p.Player.toLowerCase() === playerName.toLowerCase()) + 1;
-                    const clanLogo = `<img src="logos/Logo_${player.Clan}.png" alt="Logo ${player.Clan}" class="clan-logo" onerror="this.onerror=null;this.src='logos/Logo_${player.Clan}.gif';">`;
-                    const playerStats = `
-                        <div class="stats-box">
-                            ${clanLogo}
-                            <h3>Estadísticas de ${player.Player}</h3>
-                            <p><strong>Ranking Global:</strong> #${ranking}</p>
-                            <p><strong>Clan:</strong> ${player.Clan}</p>
-                            <p><strong>Puntuación Total:</strong> ${player["Total Score"]}</p>
-                            <p><strong>Muertes Totales:</strong> ${player["Total Deaths"]}</p>
-                            <p><strong>Asesinatos Totales:</strong> ${player["Total Kills"]}</p>
-                            <p><strong>Rondas Jugadas:</strong> ${player.Rounds}</p>
-                            <p><strong>K/D Ratio:</strong> ${player["K/D Ratio"].toFixed(2)}</p>
-                            <p><strong>Puntos por Ronda:</strong> ${player["Score per Round"].toFixed(2)}</p>
-                            <p><strong>Asesinatos por Ronda:</strong> ${player["Kills per Round"].toFixed(2)}</p>
-                            <p><strong>Performance Score:</strong> ${player["Performance Score"].toFixed(2)}</p>
-                        </div>
-                    `;
-                    resultsContainer.innerHTML = playerStats;
-
-                    // Buscar y mostrar historial del jugador
-                    buscarHistorialJugador(playerName)
-                        .then(historyData => {
-                            if (historyData) {
-                                mostrarHistorialPerformance(historyData);
-                            }
-                        })
-                        .catch(error => console.error('Error al cargar el historial de performance:', error));
-                } else {
-                    resultsContainer.innerHTML = '<p>Jugador no encontrado.</p>';
-                }
-            });
-
-            // Función para buscar el historial del jugador
-            function buscarHistorialJugador(nombreJugador) {
-                const nombreNormalizado = normalizarNombre(nombreJugador);
-                const url = `https://luccabruno3z.github.io/graphs/history/${nombreNormalizado}_history.json`;
-
-                return fetch(url)
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Historial no encontrado');
-                        }
-                        return response.json();
-                    })
-                    .catch(error => {
-                        console.error('Error al cargar el archivo JSON:', error);
-                        return null;
-                    });
-            }
-
-            // Función para normalizar el nombre del jugador
-            function normalizarNombre(nombre) {
-                return nombre.replace(/[^a-zA-Z0-9_-]/g, '_');
-            }
-
-            // Función para mostrar el gráfico de historial de performance
-            function mostrarHistorialPerformance(historyData) {
-                const dates = historyData.map(entry => entry.Date);
-                const scores = historyData.map(entry => entry["Performance Score"]);
-
-                performanceHistoryChart.style.display = 'block';
-
-                new Chart(performanceHistoryChart, {
-                    type: 'line',
-                    data: {
-                        labels: dates,
-                        datasets: [{
-                            label: 'Performance Score',
-                            data: scores,
-                            borderColor: 'rgba(0, 255, 255, 0.8)',
-                            backgroundColor: 'rgba(0, 255, 255, 0.2)',
-                            fill: true,
-                            tension: 0.1
-                        }]
-                    },
-                    options: {
-                        scales: {
-                            y: {
-                                beginAtZero: true,
-                                grid: {
-                                    color: 'rgba(255, 255, 255, 0.1)'
-                                },
-                                ticks: {
-                                    color: '#fff'
-                                }
-                            },
-                            x: {
-                                grid: {
-                                    color: 'rgba(255, 255, 255, 0.1)'
-                                },
-                                ticks: {
-                                    color: '#fff'
-                                }
-                            }
-                        },
-                        plugins: {
-                            legend: {
-                                display: false
-                            }
-                        }
-                    }
-                });
-            }
-
-            // Fetch and display clan averages
-            fetch('https://luccabruno3z.github.io/graphs/clan_averages.json')
-                .then(response => response.json())
-                .then(data => {
-                    const averagesContainer = document.getElementById('clan-averages-results');
-                    averagesContainer.innerHTML = '';
-
-                    const clanNames = data.map(clan => clan.Clan);
-                    const performanceScores = data.map(clan => clan["Performance Score"]);
-
-                    const ctx = document.getElementById('clanAveragesChart').getContext('2d');
-                    new Chart(ctx, {
-                        type: 'bar',
-                        data: {
-                            labels: clanNames,
-                            datasets: [{
-                                label: 'Performance Score',
-                                data: performanceScores,
-                                backgroundColor: 'rgba(0, 255, 255, 0.5)',
-                                borderColor: 'rgba(0, 255, 255, 0.8)',
-                                borderWidth: 1,
-                                hoverBackgroundColor: 'rgba(0, 255, 255, 0.8)',
-                                hoverBorderColor: 'rgba(0, 255, 255, 1)',
-                                borderRadius: 5,
-                                barThickness: 30,
-                                shadowOffsetX: 3,
-                                shadowOffsetY: 3,
-                                shadowBlur: 10,
-                                shadowColor: 'rgba(0, 255, 255, 0.5)',
-                            }]
-                        },
-                        options: {
-                            scales: {
-                                y: {
-                                    beginAtZero: true,
-                                    grid: {
-                                        color: 'rgba(255, 255, 255, 0.1)'
-                                    },
-                                    ticks: {
-                                        color: '#fff'
-                                    }
-                                },
-                                x: {
-                                    grid: {
-                                        color: 'rgba(255, 255, 255, 0.1)'
-                                    },
-                                    ticks: {
-                                        color: '#fff'
-                                    }
-                                }
-                            },
-                            plugins: {
-                                legend: {
-                                    display: false
-                                }
-                            }
-                        }
-                    });
-
-                    data.forEach(clan => {
-                        const clanAverage = `
-                            <div class="stats-box">
-                                <h3>${clan.Clan}</h3>
-                                <p><strong>Promedio K/D:</strong> ${clan["K/D Ratio"].toFixed(2)}</p>
-                                <p><strong>Promedio Score:</strong> ${clan["Score per Round"].toFixed(2)}</p>
-                                <p><strong>Promedio Kills:</strong> ${clan["Kills per Round"].toFixed(2)}</p>
-                                <p><strong>Performance Score:</strong> ${clan["Performance Score"].toFixed(2)}</p>
-                            </div>
-                        `;
-                        averagesContainer.innerHTML += clanAverage;
-                    });
-                })
-                .catch(error => console.error('Error al cargar el archivo JSON de promedios:', error));
-
-            // Integrate suggestions for team analysis form
-            const teamInputs = [
-                document.getElementById('player1'),
-                document.getElementById('player2'),
-                document.getElementById('player3'),
-                document.getElementById('player4'),
-                document.getElementById('player5'),
-                document.getElementById('player6'),
-                document.getElementById('player7'),
-                document.getElementById('player8')
-            ];
-
-            const suggestionContainers = [
-                document.getElementById('suggestions1'),
-                document.getElementById('suggestions2'),
-                document.getElementById('suggestions3'),
-                document.getElementById('suggestions4'),
-                document.getElementById('suggestions5'),
-                document.getElementById('suggestions6'),
-                document.getElementById('suggestions7'),
-                document.getElementById('suggestions8')
-            ];
-
-            teamInputs.forEach((input, index) => {
-                input.addEventListener('input', function() {
-                    const query = input.value.trim().toLowerCase();
-                    suggestionContainers[index].innerHTML = '';
-
-                    if (query.length > 0) {
-                        const filteredPlayers = playersData.filter(player =>
-                            player.Player.toLowerCase().includes(query)
-                        );
-
-                        filteredPlayers.forEach(player => {
-                            const suggestionItem = document.createElement('div');
-                            suggestionItem.classList.add('suggestion-item');
-                            suggestionItem.textContent = player.Player;
-                            suggestionItem.addEventListener('click', function() {
-                                input.value = player.Player;
-                                suggestionContainers[index].innerHTML = '';
-                            });
-                            suggestionContainers[index].appendChild(suggestionItem);
-                        });
-                    }
-                });
-});
-
-            // Handle team analysis form submission
-            const teamForm = document.getElementById('team-analysis-form');
-            const teamResultsContainer = document.getElementById('team-analysis-results');
-
-            teamForm.addEventListener('submit', function(event) {
-                event.preventDefault();
-
-                const playerInputs = teamInputs.map(input => input.value.trim()).filter(name => name);
-
-                if (playerInputs.length < 2 || playerInputs.length > 8) {
-                    teamResultsContainer.innerHTML = '<p class="error">Por favor, selecciona entre 2 y 8 jugadores.</p>';
-                    return;
-                }
-
-                const equipo = playerInputs.map(name => {
-                    const jugador = playersData.find(p => p.Player.toLowerCase() === name.toLowerCase());
-                    if (!jugador) {
-                        teamResultsContainer.innerHTML = `<p class="error">Jugador '${name}' no encontrado en la base de datos.</p>`;
-                        throw new Error(`Jugador '${name}' no encontrado en la base de datos.`);
-                    }
-                    return jugador;
-                });
-
-                const total_score = equipo.reduce((acc, jugador) => acc + jugador['Total Score'], 0);
-                const total_kills = equipo.reduce((acc, jugador) => acc + jugador['Total Kills'], 0);
-                const total_deaths = equipo.reduce((acc, jugador) => acc + jugador['Total Deaths'], 0);
-                const total_rounds = equipo.reduce((acc, jugador) => acc + jugador['Rounds'], 0);
-                const total_performance_score = equipo.reduce((acc, jugador) => acc + jugador['Performance Score'], 0) / equipo.length;
-                const avg_kills_per_round = total_kills / total_rounds || 0;
-                const avg_deaths_per_round = total_deaths / total_rounds || 0;
-                const team_kd_ratio = total_kills / total_deaths || 0;
-
-                let resultsHTML = '<div class="stats-box"><h3>Métricas del Equipo</h3>';
-                resultsHTML += `<p><strong>Total Score:</strong> ${total_score}</p>`;
-                resultsHTML += `<p><strong>Total Kills:</strong> ${total_kills}</p>`;
-                resultsHTML += `<p><strong>Total Deaths:</strong> ${total_deaths}</p>`;
-                resultsHTML += `<p><strong>Total Rounds:</strong> ${total_rounds}</p>`;
-                resultsHTML += `<p><strong>Average Kills per Round:</strong> ${avg_kills_per_round.toFixed(2)}</p>`;
-                resultsHTML += `<p><strong>Average Deaths per Round:</strong> ${avg_deaths_per_round.toFixed(2)}</p>`;
-                resultsHTML += `<p><strong>Team K/D Ratio:</strong> ${team_kd_ratio.toFixed(2)}</p>`;
-                resultsHTML += `<p><strong>Average Performance Score:</strong> ${total_performance_score.toFixed(2)}</p></div>`;
-
-                equipo.forEach(jugador => {
-                    const clanLogo = `<img src="logos/Logo_${jugador.Clan}.png" alt="Logo ${jugador.Clan}" class="clan-logo" onerror="this.onerror=null;this.src='logos/Logo_${jugador.Clan}.gif';">`;
-                    resultsHTML += `<div class="stats-box"><h3>${jugador.Player}</h3>`;
-                    resultsHTML += `${clanLogo}`;
-                    resultsHTML += `<p><strong>Clan:</strong> ${jugador.Clan}</p>`;
-                    resultsHTML += `<p><strong>K/D Ratio:</strong> ${jugador['K/D Ratio'].toFixed(2)}</p>`;
-                    resultsHTML += `<p><strong>Total Kills:</strong> ${jugador['Total Kills']}</p>`;
-                    resultsHTML += `<p><strong>Total Deaths:</strong> ${jugador['Total Deaths']}</p>`;
-                    resultsHTML += `<p><strong>Rounds Jugados:</strong> ${jugador['Rounds']}</p>`;
-                    resultsHTML += `<p><strong>Performance Score:</strong> ${jugador['Performance Score'].toFixed(2)}</p></div>`;
-                });
-
-                teamResultsContainer.innerHTML = resultsHTML;
-            });
-        });
-    </script>
+    <script src="web/js/app.js"></script>
 </body>
 </html>
